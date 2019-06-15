@@ -1,5 +1,5 @@
-add_subdirectory( nodeos )
-add_subdirectory( cleos )
-add_subdirectory( keosd )
+add_subdirectory( nodpaybchain )
+add_subdirectory( clpaybchain )
+add_subdirectory( kpaybchaind )
 add_subdirectory( eosio-launcher )
 add_subdirectory( eosio-blocklog )

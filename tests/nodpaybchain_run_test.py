@@ -11,7 +11,7 @@ import decimal
 import re
 
 ###############################################################
-# nodeos_run_test
+# nodpaybchain_run_test
 # --dump-error-details <Upon error print etc/eosio/node_*/config.ini and var/lib/node_*/stderr.log to stdout>
 # --keep-logs <Don't delete var/lib/node_* folders upon test completion>
 ###############################################################
@@ -51,7 +51,7 @@ killWallet=not dontKill
 dontBootstrap=sanityTest # intent is to limit the scope of the sanity test to just verifying that nodes can be started
 
 WalletdName=Utils.EosWalletName
-ClientName="cleos"
+ClientName="clpaybchain"
 timeout = .5 * 12 * 2 + 60 # time for finalization with 1 producer + 60 seconds padding
 Utils.setIrreversibleTimeout(timeout)
 

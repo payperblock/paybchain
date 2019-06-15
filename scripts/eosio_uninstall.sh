@@ -3,14 +3,14 @@
 OPT_LOCATION=$HOME/opt
 
 binaries=(
-   cleos
+   clpaybchain
    eosio-abigen
    eosio-launcher
    eosio-s2wasm
    eosio-wast2wasm
    eosiocpp
-   keosd
-   nodeos
+   kpaybchaind
+   nodpaybchain
    eosio-applesdemo
 )
 

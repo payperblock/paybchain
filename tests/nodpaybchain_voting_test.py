@@ -12,7 +12,7 @@ import math
 import re
 
 ###############################################################
-# nodeos_voting_test
+# nodpaybchain_voting_test
 # --dump-error-details <Upon error print etc/eosio/node_*/config.ini and var/lib/node_*/stderr.log to stdout>
 # --keep-logs <Don't delete var/lib/node_* folders upon test completion>
 ###############################################################
@@ -162,7 +162,7 @@ killEosInstances=not dontKill
 killWallet=not dontKill
 
 WalletdName=Utils.EosWalletName
-ClientName="cleos"
+ClientName="clpaybchain"
 
 try:
     TestHelper.printSystemInfo("BEGIN")

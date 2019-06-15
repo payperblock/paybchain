@@ -35,11 +35,11 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/distributed-transactions-test.py ${CM
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/distributed-transactions-remote-test.py ${CMAKE_CURRENT_BINARY_DIR}/distributed-transactions-remote-test.py COPYONLY)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/sample-cluster-map.json ${CMAKE_CURRENT_BINARY_DIR}/sample-cluster-map.json COPYONLY)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/restart-scenarios-test.py ${CMAKE_CURRENT_BINARY_DIR}/restart-scenarios-test.py COPYONLY)
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/nodeos_forked_chain_test.py ${CMAKE_CURRENT_BINARY_DIR}/nodeos_forked_chain_test.py COPYONLY)
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/nodeos_run_test.py ${CMAKE_CURRENT_BINARY_DIR}/nodeos_run_test.py COPYONLY)
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/nodeos_run_remote_test.py ${CMAKE_CURRENT_BINARY_DIR}/nodeos_run_remote_test.py COPYONLY)
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/nodeos_under_min_avail_ram.py ${CMAKE_CURRENT_BINARY_DIR}/nodeos_under_min_avail_ram.py COPYONLY)
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/nodeos_voting_test.py ${CMAKE_CURRENT_BINARY_DIR}/nodeos_voting_test.py COPYONLY)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/nodpaybchain_forked_chain_test.py ${CMAKE_CURRENT_BINARY_DIR}/nodpaybchain_forked_chain_test.py COPYONLY)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/nodpaybchain_run_test.py ${CMAKE_CURRENT_BINARY_DIR}/nodpaybchain_run_test.py COPYONLY)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/nodpaybchain_run_remote_test.py ${CMAKE_CURRENT_BINARY_DIR}/nodpaybchain_run_remote_test.py COPYONLY)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/nodpaybchain_under_min_avail_ram.py ${CMAKE_CURRENT_BINARY_DIR}/nodpaybchain_under_min_avail_ram.py COPYONLY)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/nodpaybchain_voting_test.py ${CMAKE_CURRENT_BINARY_DIR}/nodpaybchain_voting_test.py COPYONLY)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/consensus-validation-malicious-producers.py ${CMAKE_CURRENT_BINARY_DIR}/consensus-validation-malicious-producers.py COPYONLY)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/validate-dirty-db.py ${CMAKE_CURRENT_BINARY_DIR}/validate-dirty-db.py COPYONLY)
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/launcher_test.py ${CMAKE_CURRENT_BINARY_DIR}/launcher_test.py COPYONLY)
@@ -48,20 +48,20 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/version-label.sh ${CMAKE_CURRENT_BINA
 #To run plugin_test with all log from blockchain displayed, put --verbose after --, i.e. plugin_test -- --verbose
 add_test(NAME plugin_test COMMAND plugin_test --report_level=detailed --color_output)
 
-add_test(NAME nodeos_sanity_test COMMAND tests/nodeos_run_test.py -v --sanity-test --clean-run --dump-error-detail WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
-set_property(TEST nodeos_sanity_test PROPERTY LABELS nonparallelizable_tests)
-add_test(NAME nodeos_sanity_bnet_test COMMAND tests/nodeos_run_test.py -v --sanity-test --clean-run --p2p-plugin bnet --dump-error-detail WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
-set_property(TEST nodeos_sanity_bnet_test PROPERTY LABELS nonparallelizable_tests)
-add_test(NAME nodeos_run_test COMMAND tests/nodeos_run_test.py -v --clean-run --dump-error-detail WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
-set_property(TEST nodeos_run_test PROPERTY LABELS nonparallelizable_tests)
-add_test(NAME nodeos_run_bnet_test COMMAND tests/nodeos_run_test.py -v --clean-run --p2p-plugin bnet --dump-error-detail WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
-set_property(TEST nodeos_run_bnet_test PROPERTY LABELS nonparallelizable_tests)
+add_test(NAME nodpaybchain_sanity_test COMMAND tests/nodpaybchain_run_test.py -v --sanity-test --clean-run --dump-error-detail WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
+set_property(TEST nodpaybchain_sanity_test PROPERTY LABELS nonparallelizable_tests)
+add_test(NAME nodpaybchain_sanity_bnet_test COMMAND tests/nodpaybchain_run_test.py -v --sanity-test --clean-run --p2p-plugin bnet --dump-error-detail WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
+set_property(TEST nodpaybchain_sanity_bnet_test PROPERTY LABELS nonparallelizable_tests)
+add_test(NAME nodpaybchain_run_test COMMAND tests/nodpaybchain_run_test.py -v --clean-run --dump-error-detail WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
+set_property(TEST nodpaybchain_run_test PROPERTY LABELS nonparallelizable_tests)
+add_test(NAME nodpaybchain_run_bnet_test COMMAND tests/nodpaybchain_run_test.py -v --clean-run --p2p-plugin bnet --dump-error-detail WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
+set_property(TEST nodpaybchain_run_bnet_test PROPERTY LABELS nonparallelizable_tests)
 
 add_test(NAME p2p_dawn515_test COMMAND tests/p2p_tests/dawn_515/test.sh WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
 set_property(TEST p2p_dawn515_test PROPERTY LABELS nonparallelizable_tests)
 if(BUILD_MONGO_DB_PLUGIN)
-  add_test(NAME nodeos_run_test-mongodb COMMAND tests/nodeos_run_test.py --mongodb -v --clean-run --dump-error-detail WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
-  set_property(TEST nodeos_run_test-mongodb PROPERTY LABELS nonparallelizable_tests)
+  add_test(NAME nodpaybchain_run_test-mongodb COMMAND tests/nodpaybchain_run_test.py --mongodb -v --clean-run --dump-error-detail WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
+  set_property(TEST nodpaybchain_run_test-mongodb PROPERTY LABELS nonparallelizable_tests)
 endif()
 
 add_test(NAME distributed-transactions-test COMMAND tests/distributed-transactions-test.py -d 2 -p 4 -n 6 -v --clean-run --dump-error-detail WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
@@ -82,29 +82,29 @@ set_property(TEST launcher_test PROPERTY LABELS nonparallelizable_tests)
 add_test(NAME version-label-test COMMAND tests/version-label.sh WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
 
 # Long running tests
-add_test(NAME nodeos_sanity_lr_test COMMAND tests/nodeos_run_test.py -v --sanity-test --clean-run --dump-error-detail WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
-set_property(TEST nodeos_sanity_lr_test PROPERTY LABELS long_running_tests)
-add_test(NAME nodeos_sanity_bnet_lr_test COMMAND tests/nodeos_run_test.py -v --sanity-test --p2p-plugin bnet --clean-run --dump-error-detail WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
-set_property(TEST nodeos_sanity_bnet_lr_test PROPERTY LABELS long_running_tests)
-add_test(NAME nodeos_run_check_lr_test COMMAND tests/nodeos_run_test.py -v --clean-run --dump-error-detail WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
-set_property(TEST nodeos_run_check_lr_test PROPERTY LABELS long_running_tests)
-add_test(NAME nodeos_remote_lr_test COMMAND tests/nodeos_run_remote_test.py -v --clean-run --dump-error-detail WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
-set_property(TEST nodeos_remote_lr_test PROPERTY LABELS long_running_tests)
+add_test(NAME nodpaybchain_sanity_lr_test COMMAND tests/nodpaybchain_run_test.py -v --sanity-test --clean-run --dump-error-detail WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
+set_property(TEST nodpaybchain_sanity_lr_test PROPERTY LABELS long_running_tests)
+add_test(NAME nodpaybchain_sanity_bnet_lr_test COMMAND tests/nodpaybchain_run_test.py -v --sanity-test --p2p-plugin bnet --clean-run --dump-error-detail WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
+set_property(TEST nodpaybchain_sanity_bnet_lr_test PROPERTY LABELS long_running_tests)
+add_test(NAME nodpaybchain_run_check_lr_test COMMAND tests/nodpaybchain_run_test.py -v --clean-run --dump-error-detail WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
+set_property(TEST nodpaybchain_run_check_lr_test PROPERTY LABELS long_running_tests)
+add_test(NAME nodpaybchain_remote_lr_test COMMAND tests/nodpaybchain_run_remote_test.py -v --clean-run --dump-error-detail WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
+set_property(TEST nodpaybchain_remote_lr_test PROPERTY LABELS long_running_tests)
 
 #add_test(NAME distributed_transactions_lr_test COMMAND tests/distributed-transactions-test.py -d 2 -p 21 -n 21 -v --clean-run --dump-error-detail WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
 #set_property(TEST distributed_transactions_lr_test PROPERTY LABELS long_running_tests)
 
-add_test(NAME nodeos_forked_chain_lr_test COMMAND tests/nodeos_forked_chain_test.py -v --wallet-port 9901 --clean-run --dump-error-detail WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
-set_property(TEST nodeos_forked_chain_lr_test PROPERTY LABELS long_running_tests)
+add_test(NAME nodpaybchain_forked_chain_lr_test COMMAND tests/nodpaybchain_forked_chain_test.py -v --wallet-port 9901 --clean-run --dump-error-detail WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
+set_property(TEST nodpaybchain_forked_chain_lr_test PROPERTY LABELS long_running_tests)
 
-add_test(NAME nodeos_voting_lr_test COMMAND tests/nodeos_voting_test.py -v --wallet-port 9902 --clean-run --dump-error-detail WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
-set_property(TEST nodeos_voting_lr_test PROPERTY LABELS long_running_tests)
+add_test(NAME nodpaybchain_voting_lr_test COMMAND tests/nodpaybchain_voting_test.py -v --wallet-port 9902 --clean-run --dump-error-detail WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
+set_property(TEST nodpaybchain_voting_lr_test PROPERTY LABELS long_running_tests)
 
-add_test(NAME nodeos_voting_bnet_lr_test COMMAND tests/nodeos_voting_test.py -v --wallet-port 9903 --p2p-plugin bnet --clean-run --dump-error-detail WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
-set_property(TEST nodeos_voting_bnet_lr_test PROPERTY LABELS long_running_tests)
+add_test(NAME nodpaybchain_voting_bnet_lr_test COMMAND tests/nodpaybchain_voting_test.py -v --wallet-port 9903 --p2p-plugin bnet --clean-run --dump-error-detail WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
+set_property(TEST nodpaybchain_voting_bnet_lr_test PROPERTY LABELS long_running_tests)
 
-add_test(NAME nodeos_under_min_avail_ram_lr_test COMMAND tests/nodeos_under_min_avail_ram.py -v --wallet-port 9904 --clean-run --dump-error-detail WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
-set_property(TEST nodeos_under_min_avail_ram_lr_test PROPERTY LABELS long_running_tests)
+add_test(NAME nodpaybchain_under_min_avail_ram_lr_test COMMAND tests/nodpaybchain_under_min_avail_ram.py -v --wallet-port 9904 --clean-run --dump-error-detail WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
+set_property(TEST nodpaybchain_under_min_avail_ram_lr_test PROPERTY LABELS long_running_tests)
 
 
 if(ENABLE_COVERAGE_TESTING)
@@ -124,8 +124,8 @@ if(ENABLE_COVERAGE_TESTING)
   endif() # NOT GENHTML_PATH
 
   # no spaces allowed within tests list
-  set(ctest_tests 'plugin_test|p2p_dawn515_test|nodeos_run_test|bnet_nodeos_run_test|distributed-transactions-test|restart-scenarios-test_resync')
-  set(ctest_exclude_tests 'nodeos_run_remote_test|nodeos_run_test-mongodb|distributed-transactions-remote-test|restart-scenarios-test_replay')
+  set(ctest_tests 'plugin_test|p2p_dawn515_test|nodpaybchain_run_test|bnet_nodpaybchain_run_test|distributed-transactions-test|restart-scenarios-test_resync')
+  set(ctest_exclude_tests 'nodpaybchain_run_remote_test|nodpaybchain_run_test-mongodb|distributed-transactions-remote-test|restart-scenarios-test_replay')
 
   # Setup target
   add_custom_target(${Coverage_NAME}

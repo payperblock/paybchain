@@ -407,7 +407,7 @@ struct launcher_def {
    bfs::path data_dir_base;
    bool skip_transaction_signatures = false;
    string eosd_extra_args;
-   std::map<uint,string> specific_nodeos_args;
+   std::map<uint,string> specific_nodpaybchain_args;
    testnet_def network;
    string gelf_endpoint;
    vector <string> aliases;
@@ -486,16 +486,16 @@ launcher_def::set_options (bpo::options_description &cfg) {
     ("shape,s",bpo::value<string>(&shape)->default_value("star"),"network topology, use \"star\" \"mesh\" or give a filename for custom")
     ("p2p-plugin", bpo::value<string>()->default_value("net"),"select a p2p plugin to use (either net or bnet). Defaults to net.")
     ("genesis,g",bpo::value<string>()->default_value("./genesis.json"),"set the path to genesis.json")
-    ("skip-signature", bpo::bool_switch(&skip_transaction_signatures)->default_value(false), "nodeos does not require transaction signatures.")
-    ("nodeos", bpo::value<string>(&eosd_extra_args), "forward nodeos command line argument(s) to each instance of nodeos, enclose arg(s) in quotes")
-    ("specific-num", bpo::value<vector<uint>>()->composing(), "forward nodeos command line argument(s) (using \"--specific-nodeos\" flag) to this specific instance of nodeos. This parameter can be entered multiple times and requires a paired \"--specific-nodeos\" flag")
-    ("specific-nodeos", bpo::value<vector<string>>()->composing(), "forward nodeos command line argument(s) to its paired specific instance of nodeos(using \"--specific-num\"), enclose arg(s) in quotes")
+    ("skip-signature", bpo::bool_switch(&skip_transaction_signatures)->default_value(false), "nodpaybchain does not require transaction signatures.")
+    ("nodpaybchain", bpo::value<string>(&eosd_extra_args), "forward nodpaybchain command line argument(s) to each instance of nodpaybchain, enclose arg(s) in quotes")
+    ("specific-num", bpo::value<vector<uint>>()->composing(), "forward nodpaybchain command line argument(s) (using \"--specific-nodpaybchain\" flag) to this specific instance of nodpaybchain. This parameter can be entered multiple times and requires a paired \"--specific-nodpaybchain\" flag")
+    ("specific-nodpaybchain", bpo::value<vector<string>>()->composing(), "forward nodpaybchain command line argument(s) to its paired specific instance of nodpaybchain(using \"--specific-num\"), enclose arg(s) in quotes")
     ("delay,d",bpo::value<int>(&start_delay)->default_value(0),"seconds delay before starting each node after the first")
     ("boot",bpo::bool_switch(&boot)->default_value(false),"After deploying the nodes and generating a boot script, invoke it.")
     ("nogen",bpo::bool_switch(&nogen)->default_value(false),"launch nodes without writing new config files")
     ("host-map",bpo::value<string>(),"a file containing mapping specific nodes to hosts. Used to enhance the custom shape argument")
     ("servers",bpo::value<string>(),"a file containing ip addresses and names of individual servers to deploy as producers or non-producers ")
-    ("per-host",bpo::value<int>(&per_host)->default_value(0),"specifies how many nodeos instances will run on a single host. Use 0 to indicate all on one.")
+    ("per-host",bpo::value<int>(&per_host)->default_value(0),"specifies how many nodpaybchain instances will run on a single host. Use 0 to indicate all on one.")
     ("network-name",bpo::value<string>(&network.name)->default_value("testnet_"),"network name prefix used in GELF logging source")
     ("enable-gelf-logging",bpo::value<bool>(&gelf_enabled)->default_value(true),"enable gelf logging appender in logging configuration file")
     ("gelf-endpoint",bpo::value<string>(&gelf_endpoint)->default_value("10.160.11.21:12201"),"hostname:port or ip:port of GELF endpoint")
@@ -552,9 +552,9 @@ launcher_def::initialize (const variables_map &vmap) {
 
   if (vmap.count("specific-num")) {
     const auto specific_nums = vmap["specific-num"].as<vector<uint>>();
-    const auto specific_args = vmap["specific-nodeos"].as<vector<string>>();
+    const auto specific_args = vmap["specific-nodpaybchain"].as<vector<string>>();
     if (specific_nums.size() != specific_args.size()) {
-      cerr << "ERROR: every specific-num argument must be paired with a specific-nodeos argument" << endl;
+      cerr << "ERROR: every specific-num argument must be paired with a specific-nodpaybchain argument" << endl;
       exit (-1);
     }
     const auto total_nodes = vmap["nodes"].as<size_t>();
@@ -565,7 +565,7 @@ launcher_def::initialize (const variables_map &vmap) {
         cerr << "\"--specific-num\" provided value= " << num << " is higher than \"--nodes\" provided value=" << total_nodes << endl;
         exit (-1);
       }
-      specific_nodeos_args[num] = specific_args[i];
+      specific_nodpaybchain_args[num] = specific_args[i];
     }
   }
 
@@ -1499,7 +1499,7 @@ launcher_def::launch (eosd_def &instance, string &gts) {
   bfs::path reerr_sl = dd / "stderr.txt";
   bfs::path reerr_base = bfs::path("stderr." + launch_time + ".txt");
   bfs::path reerr = dd / reerr_base;
-  bfs::path pidf  = dd / "nodeos.pid";
+  bfs::path pidf  = dd / "nodpaybchain.pid";
   host_def* host;
   try {
      host = deploy_config_files (*instance.node);
@@ -1511,7 +1511,7 @@ launcher_def::launch (eosd_def &instance, string &gts) {
   node_rt_info info;
   info.remote = !host->is_local();
 
-  string eosdcmd = "programs/nodeos/nodeos ";
+  string eosdcmd = "programs/nodpaybchain/nodpaybchain ";
   if (skip_transaction_signatures) {
     eosdcmd += "--skip-transaction-signatures ";
   }
@@ -1529,10 +1529,10 @@ launcher_def::launch (eosd_def &instance, string &gts) {
        eosdcmd += eosd_extra_args + " ";
     }
   }
-  if (instance.name != "bios" && !specific_nodeos_args.empty()) {
+  if (instance.name != "bios" && !specific_nodpaybchain_args.empty()) {
      const auto node_num = boost::lexical_cast<uint16_t,string>(instance.get_node_num());
-     if (specific_nodeos_args.count(node_num)) {
-        eosdcmd += specific_nodeos_args[node_num] + " ";
+     if (specific_nodpaybchain_args.count(node_num)) {
+        eosdcmd += specific_nodpaybchain_args[node_num] + " ";
      }
   }
 
@@ -1718,10 +1718,10 @@ launcher_def::bounce (const string& node_numbers) {
       const string node_num = node.get_node_num();
       cout << "Bouncing " << node.name << endl;
       string cmd = "./scripts/eosio-tn_bounce.sh " + eosd_extra_args;
-      if (node_num != "bios" && !specific_nodeos_args.empty()) {
+      if (node_num != "bios" && !specific_nodpaybchain_args.empty()) {
          const auto node_num_i = boost::lexical_cast<uint16_t,string>(node_num);
-         if (specific_nodeos_args.count(node_num_i)) {
-            cmd += " " + specific_nodeos_args[node_num_i];
+         if (specific_nodpaybchain_args.count(node_num_i)) {
+            cmd += " " + specific_nodpaybchain_args[node_num_i];
          }
       }
 

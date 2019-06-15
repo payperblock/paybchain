@@ -6,35 +6,35 @@ services:
       context: builder
     image: eosio/builder
 
-  nodeosd:
+  nodpaybchaind:
     build:
       context: .
     image: eosio/eos
-    command: /opt/eosio/bin/nodeosd.sh --data-dir /opt/eosio/bin/data-dir -e --http-alias=nodeosd:8888 --http-alias=127.0.0.1:8888 --http-alias=localhost:8888
-    hostname: nodeosd
+    command: /opt/eosio/bin/nodpaybchaind.sh --data-dir /opt/eosio/bin/data-dir -e --http-alias=nodpaybchaind:8888 --http-alias=127.0.0.1:8888 --http-alias=localhost:8888
+    hostname: nodpaybchaind
     ports:
       - 8888:8888
       - 9876:9876
     expose:
       - "8888"
     volumes:
-      - nodeos-data-volume:/opt/eosio/bin/data-dir
+      - nodpaybchain-data-volume:/opt/eosio/bin/data-dir
     cap_add:
       - IPC_LOCK
     stop_grace_period: 10m
 
-  keosd:
+  kpaybchaind:
     image: eosio/eos
-    command: /opt/eosio/bin/keosd --wallet-dir /opt/eosio/bin/data-dir --http-server-address=127.0.0.1:8900 --http-alias=keosd:8900 --http-alias=localhost:8900
-    hostname: keosd
+    command: /opt/eosio/bin/kpaybchaind --wallet-dir /opt/eosio/bin/data-dir --http-server-address=127.0.0.1:8900 --http-alias=kpaybchaind:8900 --http-alias=localhost:8900
+    hostname: kpaybchaind
     links:
-      - nodeosd
+      - nodpaybchaind
     volumes:
-      - keosd-data-volume:/opt/eosio/bin/data-dir
+      - kpaybchaind-data-volume:/opt/eosio/bin/data-dir
     stop_grace_period: 10m
 
 volumes:
-  nodeos-data-volume:
+  nodpaybchain-data-volume:
     external: true
-  keosd-data-volume:
+  kpaybchaind-data-volume:
     external: true

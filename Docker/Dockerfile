@@ -17,8 +17,8 @@ COPY --from=builder /usr/local/lib/* /usr/local/lib/
 COPY --from=builder /tmp/build/bin /opt/eosio/bin
 COPY --from=builder /eos/Docker/config.ini /
 COPY --from=builder /etc/eosio-version /etc
-COPY --from=builder /eos/Docker/nodeosd.sh /opt/eosio/bin/nodeosd.sh
+COPY --from=builder /eos/Docker/nodpaybchaind.sh /opt/eosio/bin/nodpaybchaind.sh
 ENV EOSIO_ROOT=/opt/eosio
-RUN chmod +x /opt/eosio/bin/nodeosd.sh
+RUN chmod +x /opt/eosio/bin/nodpaybchaind.sh
 ENV LD_LIBRARY_PATH /usr/local/lib
 ENV PATH /opt/eosio/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin

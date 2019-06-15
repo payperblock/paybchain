@@ -44,17 +44,17 @@ libraries/wasm-jit/Source/Programs/Disassemble
 libraries/wasm-jit/Source/Programs/Test
 libraries/wasm-jit/Source/Programs/wavm
 
-programs/cleos/cleos
+programs/clpaybchain/clpaybchain
 programs/js_operation_serializer/js_operation_serializer
 programs/data-dir
 programs/eosio-abigen/eosio-abigen
-programs/cleos/config.hpp
+programs/clpaybchain/config.hpp
 programs/eosio-applesedemo/eosio-applesedemo
 programs/eosio-launcher/config.hpp
 programs/eosio-launcher/eosio-launcher
-programs/keosd/keosd
-programs/nodeos/config.hpp
-programs/nodeos/nodeos
+programs/kpaybchaind/kpaybchaind
+programs/nodpaybchain/config.hpp
+programs/nodpaybchain/nodpaybchain
 
 scripts/tn_init.sh
 

@@ -16,7 +16,7 @@ import re
 import signal
 
 ###############################################################
-# nodeos_forked_chain_test
+# nodpaybchain_forked_chain_test
 # --dump-error-details <Upon error print etc/eosio/node_*/config.ini and var/lib/node_*/stderr.log to stdout>
 # --keep-logs <Don't delete var/lib/node_* folders upon test completion>
 ###############################################################
@@ -137,7 +137,7 @@ killEosInstances=not dontKill
 killWallet=not dontKill
 
 WalletdName=Utils.EosWalletName
-ClientName="cleos"
+ClientName="clpaybchain"
 
 try:
     TestHelper.printSystemInfo("BEGIN")

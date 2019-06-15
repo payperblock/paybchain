@@ -37,7 +37,7 @@ Minimal command line to launch the script below, make sure you replace `EOSIO_CO
 $ cd ~
 $ git clone https://github.com/EOSIO/eos.git
 $ cd ./eos/tutorials/bios-boot-tutorial/
-$ python3 bios-boot-tutorial.py --cleos="cleos --wallet-url http://127.0.0.1:6666 " --nodeos=nodeos --keosd=keosd --contracts-dir="/EOSIO_CONTRACTS_DIRECTORY/" -a
+$ python3 bios-boot-tutorial.py --clpaybchain="clpaybchain --wallet-url http://127.0.0.1:6666 " --nodpaybchain=nodpaybchain --kpaybchaind=kpaybchaind --contracts-dir="/EOSIO_CONTRACTS_DIRECTORY/" -a
 
 ```
 

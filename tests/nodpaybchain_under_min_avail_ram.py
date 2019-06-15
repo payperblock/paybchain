@@ -50,7 +50,7 @@ class NamedAccounts:
 
 
 ###############################################################
-# nodeos_voting_test
+# nodpaybchain_voting_test
 # --dump-error-details <Upon error print etc/eosio/node_*/config.ini and var/lib/node_*/stderr.log to stdout>
 # --keep-logs <Don't delete var/lib/node_* folders upon test completion>
 ###############################################################
@@ -71,7 +71,7 @@ killEosInstances=not dontKill
 killWallet=not dontKill
 
 WalletdName=Utils.EosWalletName
-ClientName="cleos"
+ClientName="clpaybchain"
 
 try:
     TestHelper.printSystemInfo("BEGIN")
@@ -167,7 +167,7 @@ try:
                 if trans is None or not trans[0]:
                     timeOutCount+=1
                     if timeOutCount>=3:
-                       Print("Failed to push create action to eosio contract for %d consecutive times, looks like nodeos already exited." % (timeOutCount))
+                       Print("Failed to push create action to eosio contract for %d consecutive times, looks like nodpaybchain already exited." % (timeOutCount))
                        keepProcessing=False
                        break
                     Print("Failed to push create action to eosio contract. sleep for 60 seconds")

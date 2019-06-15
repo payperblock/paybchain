@@ -19,14 +19,14 @@ class Utils:
     Debug=False
     FNull = open(os.devnull, 'w')
 
-    EosClientPath="programs/cleos/cleos"
-    MiscEosClientArgs="--no-auto-keosd"
+    EosClientPath="programs/clpaybchain/clpaybchain"
+    MiscEosClientArgs="--no-auto-kpaybchaind"
 
-    EosWalletName="keosd"
-    EosWalletPath="programs/keosd/"+ EosWalletName
+    EosWalletName="kpaybchaind"
+    EosWalletPath="programs/kpaybchaind/"+ EosWalletName
 
-    EosServerName="nodeos"
-    EosServerPath="programs/nodeos/"+ EosServerName
+    EosServerName="nodpaybchain"
+    EosServerPath="programs/nodpaybchain/"+ EosServerName
 
     EosLauncherPath="programs/eosio-launcher/eosio-launcher"
     MongoPath="mongo"
